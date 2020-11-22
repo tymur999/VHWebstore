@@ -12,8 +12,10 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
+using VHacksWebstore.Core.Domain;
+using System;
 
-namespace VHacksWebstore.Areas.Identity.Pages.Account
+namespace VHacksWebstore.Core.App.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
@@ -22,8 +24,9 @@ namespace VHacksWebstore.Areas.Identity.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly SignInManager<WebstoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        public event EventHandler<LoginEventArgs> LoginEvent;
 
-        public LoginModel(SignInManager<WebstoreUser> signInManager, 
+        public LoginModel(SignInManager<WebstoreUser> signInManager,
             ILogger<LoginModel> logger,
             UserManager<WebstoreUser> userManager,
             IEmailSender emailSender)
@@ -33,6 +36,13 @@ namespace VHacksWebstore.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
         }
+        public class LoginEventArgs : EventArgs
+        {
+            public string Result { get; set; }
+            public WebstoreUser LoginUser { get; set; }
+        }
+        public void OnLoginHandler(object sender, LoginEventArgs e) => _logger.LogInformation($"{e.LoginUser.Email} - {e.Result}", e);
+        public void OnUserNotFoundHandler(object sender, LoginEventArgs e) { }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -85,36 +95,46 @@ namespace VHacksWebstore.Areas.Identity.Pages.Account
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var user = await _userManager.FindByNameAsync(Input.Email);
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                if(user == null)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
-                }
-                if (result.RequiresTwoFactor)
-                {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
-                }
-                if (result.IsLockedOut)
-                {
-                    _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    LoginEvent += OnUserNotFoundHandler;
+                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "User Not Found" });
+                    return Page();
                 }
                 if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
+                    LoginEvent += OnLoginHandler;
+                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Failed Login Without Confirmed Email", LoginUser = user });
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
-                        "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code = code, returnUrl = returnUrl },
-                        protocol: Request.Scheme);
+                    var callbackUrl = Url.Link(
+                        "~/Account/ConfirmEmail",
+                        values: new { area = "Identity", userId = user.Id, code, returnUrl });
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email - Resend",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     StatusMessage = "Error: Account is not confirmed with an email. We've resent the confirmation message to your email.";
                     return Page();
                 }
-                if(user.PasswordHash == null)
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    LoginEvent += OnLoginHandler;
+                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Login Successful", LoginUser = user });
+                    return LocalRedirect(returnUrl);
+                }
+                if (result.RequiresTwoFactor)
+                {
+                    LoginEvent += OnLoginHandler;
+                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Login Requires 2FA", LoginUser = user });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    LoginEvent += OnLoginHandler;
+                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Is Locked Out", LoginUser = user });
+                    return RedirectToPage("./Lockout");
+                }
+                if (user.PasswordHash == null)
                 {
                     StatusMessage = "Error: This account is registered with an external login. Unable to login with local account.";
                     return Page();

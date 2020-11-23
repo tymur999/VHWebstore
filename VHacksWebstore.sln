@@ -13,9 +13,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{13F86A7B-0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VHacksWebstore.Data", "VHacksWebstore.Data\VHacksWebstore.Data.csproj", "{6CDD6646-933B-4CF9-930D-7F16BECB30A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHacksWebstore.Core.App", "VHacksWebstore.Core.App\VHacksWebstore.Core.App.csproj", "{7C8B03F7-994A-485E-862C-B9871B160517}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VHacksWebstore.Core.App", "VHacksWebstore.Core.App\VHacksWebstore.Core.App.csproj", "{7C8B03F7-994A-485E-862C-B9871B160517}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHacksWebstore.Core.Domain", "VHacksWebstore.Core.Domain\VHacksWebstore.Core.Domain.csproj", "{15C59B99-C1AE-4E3A-B949-DB425D56B155}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VHacksWebstore.Core.Domain", "VHacksWebstore.Core.Domain\VHacksWebstore.Core.Domain.csproj", "{15C59B99-C1AE-4E3A-B949-DB425D56B155}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VHacksWebstore.Core.Services", "VHacksWebstore.Core.Services\VHacksWebstore.Core.Services.csproj", "{EB79E027-B754-4151-BCFD-6E62E3EE203B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{15C59B99-C1AE-4E3A-B949-DB425D56B155}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15C59B99-C1AE-4E3A-B949-DB425D56B155}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15C59B99-C1AE-4E3A-B949-DB425D56B155}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB79E027-B754-4151-BCFD-6E62E3EE203B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB79E027-B754-4151-BCFD-6E62E3EE203B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB79E027-B754-4151-BCFD-6E62E3EE203B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB79E027-B754-4151-BCFD-6E62E3EE203B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +54,7 @@ Global
 		{6CDD6646-933B-4CF9-930D-7F16BECB30A2} = {13F86A7B-028A-4DF4-9AF9-4C874511023A}
 		{7C8B03F7-994A-485E-862C-B9871B160517} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
 		{15C59B99-C1AE-4E3A-B949-DB425D56B155} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
+		{EB79E027-B754-4151-BCFD-6E62E3EE203B} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {737C1F49-7FDE-4D87-8836-9676C0FC71E6}

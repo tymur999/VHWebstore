@@ -5,8 +5,8 @@ namespace VHacksWebstore.Core.Domain
 {
     public class WebstoreUser : IdentityUser
     {
-        public ICollection<Product> RecommendedProducts { get; set; }
-        public ICollection<ProductOrder> Orders { get; set; }
-        public ICollection<ProductRating> Ratings { get; set; }
+        public IEnumerable<Product> RecommendedProducts { get; set; }
+        public IEnumerable<ProductOrder> Orders { get; set; }
+        public IEnumerable<ProductRating> Ratings { get; set; }
     }
 }

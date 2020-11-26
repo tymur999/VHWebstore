@@ -10,6 +10,8 @@ namespace VHacksWebstore.Data
         : base(options)
         { }
         public DbSet<Product> Products { get; set; }
+        public DbSet<TopRatedProduct> TopRatedProducts { get; set; }
+        public DbSet<TopBroughtProduct> TopBroughtProducts { get; set; }
         public DbSet<ProductOrder> Orders { get; set; }
         public DbSet<ProductRating> Ratings { get; set; }
     }

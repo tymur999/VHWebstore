@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VHacksWebstore.Data;
 
-namespace VHacksWebstore.Core.App.Migrations
+namespace VHacksWebstore.Core.App.Migrations.WebstoreDb
 {
-    [DbContext(typeof(WebstoreUserDbContext))]
-    partial class WebstoreUserDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(WebstoreDbContext))]
+    [Migration("20201126172549_Product-Features")]
+    partial class ProductFeatures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -148,6 +150,147 @@ namespace VHacksWebstore.Core.App.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.Image", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<byte[]>("Content")
+                        .HasColumnType("BLOB");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ProductRatingId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("ProductRatingId");
+
+                    b.ToTable("Image");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.Product", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("TEXT");
+
+                    b.Property<float>("Price")
+                        .HasColumnType("REAL");
+
+                    b.Property<float>("Rating")
+                        .HasColumnType("REAL");
+
+                    b.Property<string>("WebstoreUserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("WebstoreUserId");
+
+                    b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.ProductOrder", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("BuyerId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Comment")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Status")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Orders");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.ProductRating", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("LongDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Rating")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("ShortDesc")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.TopBroughtProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("TopBroughtProducts");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.TopRatedProduct", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("ProductId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("TopRatedProducts");
+                });
+
             modelBuilder.Entity("VHacksWebstore.Core.Domain.WebstoreUser", b =>
                 {
                     b.Property<string>("Id")
@@ -261,6 +404,93 @@ namespace VHacksWebstore.Core.App.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.Image", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.Product", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("VHacksWebstore.Core.Domain.ProductRating", null)
+                        .WithMany("Images")
+                        .HasForeignKey("ProductRatingId");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.Product", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.WebstoreUser", null)
+                        .WithMany("RecommendedProducts")
+                        .HasForeignKey("WebstoreUserId");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.ProductOrder", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.WebstoreUser", "Buyer")
+                        .WithMany("Orders")
+                        .HasForeignKey("BuyerId");
+
+                    b.HasOne("VHacksWebstore.Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Buyer");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.ProductRating", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.Product", "Product")
+                        .WithMany("Ratings")
+                        .HasForeignKey("ProductId");
+
+                    b.HasOne("VHacksWebstore.Core.Domain.WebstoreUser", "User")
+                        .WithMany("Ratings")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Product");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.TopBroughtProduct", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.TopRatedProduct", b =>
+                {
+                    b.HasOne("VHacksWebstore.Core.Domain.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.Product", b =>
+                {
+                    b.Navigation("Images");
+
+                    b.Navigation("Ratings");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.ProductRating", b =>
+                {
+                    b.Navigation("Images");
+                });
+
+            modelBuilder.Entity("VHacksWebstore.Core.Domain.WebstoreUser", b =>
+                {
+                    b.Navigation("Orders");
+
+                    b.Navigation("Ratings");
+
+                    b.Navigation("RecommendedProducts");
                 });
 #pragma warning restore 612, 618
         }

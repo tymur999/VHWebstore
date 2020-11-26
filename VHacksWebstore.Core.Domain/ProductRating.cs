@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing;
 
 namespace VHacksWebstore.Core.Domain
 {
@@ -12,8 +11,9 @@ namespace VHacksWebstore.Core.Domain
         public Product Product { get; set; }
         [Range(1,5)]
         public int Rating { get; set; }
-        public string Description { get; set; }
-        //add a collection later on
-        public byte[] Images { get; set; }
+        [Range(0, 100)]
+        public string ShortDesc { get; set; }
+        public string LongDesc { get; set; }
+        public IList<Image> Images { get; set; }
     }
 }

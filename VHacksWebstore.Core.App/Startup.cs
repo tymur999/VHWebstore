@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -6,12 +7,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 using VHacksWebstore.Core.App.Services;
 using VHacksWebstore.Core.Domain;
 using VHacksWebstore.Data;
 
-namespace VHacksWebstore
+namespace VHacksWebstore.Core.App
 {
     public class Startup
     {
@@ -30,9 +30,6 @@ namespace VHacksWebstore
             services.AddDbContext<WebstoreDbContext>(options =>
                     options.UseSqlite(
                         Configuration.GetConnectionString("VHacksWebstoreDbContextConnection"), b => b.MigrationsAssembly("VHacksWebstore.Core.App")));
-            services.AddDbContext<WebstoreUserDbContext>(options =>
-                    options.UseSqlite(
-                        Configuration.GetConnectionString("VHacksUserDbContextConnection"), b => b.MigrationsAssembly("VHacksWebstore.Core.App")));
             services.AddAuthentication()
                 .AddGoogle("google", options =>
                 {
@@ -42,8 +39,8 @@ namespace VHacksWebstore
                 });
 
             services.AddDefaultIdentity<WebstoreUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<WebstoreUserDbContext>();
+                .AddEntityFrameworkStores<WebstoreDbContext>()
+                .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireNonAlphanumeric = false;

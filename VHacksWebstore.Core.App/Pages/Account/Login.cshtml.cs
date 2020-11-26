@@ -24,7 +24,6 @@ namespace VHacksWebstore.Core.App.Pages.Account
         private readonly IEmailSender _emailSender;
         private readonly SignInManager<WebstoreUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        public event EventHandler<LoginEventArgs> LoginEvent;
 
         public LoginModel(SignInManager<WebstoreUser> signInManager,
             ILogger<LoginModel> logger,
@@ -36,13 +35,6 @@ namespace VHacksWebstore.Core.App.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
         }
-        public class LoginEventArgs : EventArgs
-        {
-            public string Result { get; set; }
-            public WebstoreUser LoginUser { get; set; }
-        }
-        public void OnLoginHandler(object sender, LoginEventArgs e) => _logger.LogInformation($"{e.LoginUser.Email} - {e.Result}", e);
-        public void OnUserNotFoundHandler(object sender, LoginEventArgs e) { }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -76,7 +68,7 @@ namespace VHacksWebstore.Core.App.Pages.Account
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
             }
-            returnUrl = returnUrl ?? Url.Content("~/");
+            returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
@@ -86,9 +78,8 @@ namespace VHacksWebstore.Core.App.Pages.Account
             ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string returnUrl = null)
+        public async Task<IActionResult> OnPostAsync(string returnUrl = "~/")
         {
-            returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
             {
@@ -97,47 +88,32 @@ namespace VHacksWebstore.Core.App.Pages.Account
                 var user = await _userManager.FindByNameAsync(Input.Email);
                 if(user == null)
                 {
-                    LoginEvent += OnUserNotFoundHandler;
-                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "User Not Found" });
                     return Page();
                 }
                 if (!await _userManager.IsEmailConfirmedAsync(user))
                 {
-                    LoginEvent += OnLoginHandler;
-                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Failed Login Without Confirmed Email", LoginUser = user });
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Link(
-                        "~/Account/ConfirmEmail",
-                        values: new { area = "Identity", userId = user.Id, code, returnUrl });
+                    var callbackUrl = Url.Page(
+                        "/Account/ConfirmEmail",
+                        values: new { userId = user.Id, code, returnUrl });
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email - Resend",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
                     StatusMessage = "Error: Account is not confirmed with an email. We've resent the confirmation message to your email.";
-                    return Page();
+                    return RedirectToPage("./ConfirmEmail");
                 }
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
-                    LoginEvent += OnLoginHandler;
-                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Login Successful", LoginUser = user });
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    LoginEvent += OnLoginHandler;
-                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Login Requires 2FA", LoginUser = user });
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
-                    LoginEvent += OnLoginHandler;
-                    LoginEvent.Invoke(this, new LoginEventArgs { Result = "Is Locked Out", LoginUser = user });
                     return RedirectToPage("./Lockout");
-                }
-                if (user.PasswordHash == null)
-                {
-                    StatusMessage = "Error: This account is registered with an external login. Unable to login with local account.";
-                    return Page();
                 }
                 else
                 {

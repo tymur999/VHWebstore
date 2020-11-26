@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace VHacksWebstore.Core.App.Pages.Account
         private readonly UserManager<WebstoreUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        public event EventHandler<RegisterEventArgs> RegisterEvent;
 
         public RegisterModel(
             UserManager<WebstoreUser> userManager,
@@ -35,6 +37,12 @@ namespace VHacksWebstore.Core.App.Pages.Account
             _logger = logger;
             _emailSender = emailSender;
         }
+        public class RegisterEventArgs : EventArgs
+        {
+            public string Result { get; set; }
+            public WebstoreUser RegisterUser { get; set; }
+        }
+        public void OnRegisterHandler(object sender, RegisterEventArgs e) => _logger.LogInformation($"User {e.Result}", e);
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -82,24 +90,15 @@ namespace VHacksWebstore.Core.App.Pages.Account
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-                    var callbackUrl = Url.Page(
+                    var callbackUrl = Url.Link(
                         "/Account/ConfirmEmail",
-                        pageHandler: null,
-                        values: new { area = "Identity", userId = user.Id, code, returnUrl },
-                        protocol: Request.Scheme);
+                        values: new { area = "Identity", userId = user.Id, code, returnUrl });
 
                     await _emailSender.SendEmailAsync(Input.Email, "Confirm your email",
                         $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
-                    if (_userManager.Options.SignIn.RequireConfirmedAccount)
-                    {
-                        return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
-                    }
-                    else
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        return LocalRedirect(returnUrl);
-                    }
+                    RegisterEvent += OnRegisterHandler;
+                    RegisterEvent.Invoke(this, new RegisterEventArgs { RegisterUser = user, Result = "Registered" });
+                    return RedirectToPage("RegisterConfirmation", new { email = Input.Email, returnUrl });
                 }
                 foreach (var error in result.Errors)
                 {

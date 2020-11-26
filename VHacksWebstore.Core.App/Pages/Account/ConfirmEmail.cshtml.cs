@@ -26,7 +26,7 @@ namespace VHacksWebstore.Core.App.Pages.Account
         {
             if (userId == null || code == null)
             {
-                return RedirectToPage("/Index");
+                return Page();
             }
 
             var user = await _userManager.FindByIdAsync(userId);

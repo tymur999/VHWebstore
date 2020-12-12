@@ -9,8 +9,8 @@ namespace VHacksWebstore.Core.App.Services
     public class EmailSender : IEmailSender
     {
         public IConfiguration Configuration { get; }
-        private string SendGridUser { get; set; }
-        private string SendGridKey { get; set; }
+        private string SendGridUser { get; }
+        private string SendGridKey { get; }
 
         public EmailSender(IConfiguration configuration)
         {
@@ -29,7 +29,7 @@ namespace VHacksWebstore.Core.App.Services
             var client = new SendGridClient(apiKey);
             var msg = new SendGridMessage()
             {
-                From = new EmailAddress("tymur.arsent@gmail.com", SendGridUser),
+                From = new EmailAddress("19arsenty@gmail.com", SendGridUser),
                 Subject = subject,
                 PlainTextContent = message,
                 HtmlContent = message

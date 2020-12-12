@@ -1,11 +1,14 @@
 using System;
+using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
 using VHacksWebstore.Core.App.Services;
 using VHacksWebstore.Core.Domain;
@@ -28,17 +31,17 @@ namespace VHacksWebstore.Core.App
             services.AddRazorPages();
             services.AddSingleton<IEmailSender, EmailSender>();
             services.AddDbContext<WebstoreDbContext>(options =>
-                    options.UseSqlite(
-                        Configuration.GetConnectionString("VHacksWebstoreDbContextConnection"), b => b.MigrationsAssembly("VHacksWebstore.Core.App")));
+                options.UseSqlite(
+                    Configuration.GetConnectionString("VHacksWebstoreDbContextConnection"),
+                    b => b.MigrationsAssembly("VHacksWebstore.Core.App")));
             services.AddAuthentication()
-                .AddGoogle("google", options =>
+                .AddGoogle("Google", options =>
                 {
                     options.ClientId = "83012533104-ig05i17ijineoi46vl3639cj7n4sobd9.apps.googleusercontent.com";
                     options.ClientSecret = "JkdQFDjeHzyX367lgHDusvqL";
                     options.SignInScheme = IdentityConstants.ExternalScheme;
                 });
-
-            services.AddDefaultIdentity<WebstoreUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<WebstoreUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<WebstoreDbContext>()
                 .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>
@@ -53,8 +56,8 @@ namespace VHacksWebstore.Core.App
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
 
-                options.LoginPath = "/Account/Login";
-                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.LoginPath = "/Identity/Account/Login";
+                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
         }

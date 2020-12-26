@@ -21,6 +21,7 @@ namespace VHacksWebstore.Core.App
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    //webBuilder.UseUrls("http://localhost:5000");
                 });
     }
 }

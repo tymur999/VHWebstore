@@ -3,6 +3,8 @@
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
     <UserSecretsId>62513dd7-8574-4033-8388-d7ad525e0bd9</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
@@ -21,14 +23,21 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="5.0.1" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.1" />
     <PackageReference Include="SendGrid" Version="9.21.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TymurDev.Components\TymurDev.Components.csproj" />
+    <ProjectReference Include="..\App.Components\App.Components.csproj" />
     <ProjectReference Include="..\VHacksWebstore.Core.Domain\VHacksWebstore.Core.Domain.csproj" />
     <ProjectReference Include="..\VHacksWebstore.Data\VHacksWebstore.Data.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="VHacksWebstoreDb.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

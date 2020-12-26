@@ -19,7 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VHacksWebstore.Core.Domain"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VHacksWebstore.Testing.Integration", "VHacksWebstore.Testing.Integration\VHacksWebstore.Testing.Integration.csproj", "{7FFCA174-6311-431D-AE4D-5449846B5AEF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TymurDev.Components", "TymurDev.Components\TymurDev.Components.csproj", "{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App.Components", "App.Components\App.Components.csproj", "{2CA3BA2D-0395-40AE-BDA4-7120BD62B646}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nginx", "Nginx", "{A98D2287-7C26-46A2-9254-D4240C93CB4D}"
+	ProjectSection(SolutionItems) = preProject
+		nginx.conf = nginx.conf
+		proxy.conf = proxy.conf
+	EndProjectSection
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{92EEB697-6D49-4B55-B965-DEEB5D65D00E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +55,14 @@ Global
 		{7FFCA174-6311-431D-AE4D-5449846B5AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FFCA174-6311-431D-AE4D-5449846B5AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FFCA174-6311-431D-AE4D-5449846B5AEF}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CA3BA2D-0395-40AE-BDA4-7120BD62B646}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CA3BA2D-0395-40AE-BDA4-7120BD62B646}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CA3BA2D-0395-40AE-BDA4-7120BD62B646}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CA3BA2D-0395-40AE-BDA4-7120BD62B646}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92EEB697-6D49-4B55-B965-DEEB5D65D00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92EEB697-6D49-4B55-B965-DEEB5D65D00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92EEB697-6D49-4B55-B965-DEEB5D65D00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92EEB697-6D49-4B55-B965-DEEB5D65D00E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,7 +73,7 @@ Global
 		{7C8B03F7-994A-485E-862C-B9871B160517} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
 		{15C59B99-C1AE-4E3A-B949-DB425D56B155} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
 		{7FFCA174-6311-431D-AE4D-5449846B5AEF} = {8AE2F29C-3F63-4C41-884A-34758704A00D}
-		{6849E8E4-B2D6-475C-ACCD-4F5C396C5F6C} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
+		{2CA3BA2D-0395-40AE-BDA4-7120BD62B646} = {54F679BC-7C2F-4372-BF51-C5F94074A80F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {737C1F49-7FDE-4D87-8836-9676C0FC71E6}

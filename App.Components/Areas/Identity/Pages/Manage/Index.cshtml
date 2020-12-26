@@ -1,0 +1,40 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+<h4>@ViewData["Title"]</h4>
+<partial name="_StatusMessage" model="Model.StatusMessage"/>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label asp-for="Info.Id"></label>
+            <input asp-for="Info.Id" disabled/>
+        </div>
+        <div class="form-group">
+            <a class="" asp-page="./Email">
+                <label asp-for="Info.Email"></label>
+                <input asp-for="Info.Email" disabled />
+            </a>
+        </div>
+        <div class="form-group">
+            <h5>Your permissions</h5>
+            @foreach (var claim in Model.Info.Claims)
+            {
+                <label asp-for="@claim"></label>
+                <input asp-for="@claim" disabled />
+            }
+        </div>
+        <div class="form-group">
+            <a asp-page="./TwoFactorAuthentication">
+                <input class="form-check" type="checkbox" asp-for="Info.IsTwoFactor" disabled />
+                <label asp-for="Info.IsTwoFactor"></label>
+            </a>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial"/>
+}

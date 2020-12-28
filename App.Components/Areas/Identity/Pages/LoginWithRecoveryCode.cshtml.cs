@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -14,9 +13,9 @@ namespace App.Components.Areas.Identity.Pages
     public class LoginWithRecoveryCodeModel : PageModel
     {
         private readonly ILogger<LoginWithRecoveryCodeModel> _logger;
-        private readonly SignInManager<WebstoreUser> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public LoginWithRecoveryCodeModel(SignInManager<WebstoreUser> signInManager,
+        public LoginWithRecoveryCodeModel(SignInManager<IdentityUser> signInManager,
             ILogger<LoginWithRecoveryCodeModel> logger)
         {
             _signInManager = signInManager;

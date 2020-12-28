@@ -12,9 +12,9 @@ namespace VHacksWebstore.Core.App.Pages
     public class PrivacyModel : PageModel
     {
         private readonly ILogger<PrivacyModel> _logger;
-        private readonly SignInManager<WebstoreUser> _SignInManager;
+        private readonly SignInManager<IdentityUser> _SignInManager;
 
-        public PrivacyModel(ILogger<PrivacyModel> logger, SignInManager<WebstoreUser> signInManager)
+        public PrivacyModel(ILogger<PrivacyModel> logger, SignInManager<IdentityUser> signInManager)
         {
             _logger = logger;
             _SignInManager = signInManager;

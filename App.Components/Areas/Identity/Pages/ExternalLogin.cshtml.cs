@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -16,12 +15,12 @@ namespace App.Components.Areas.Identity.Pages
     {
         private readonly IEmailSender _emailSender;
         private readonly ILogger<ExternalLoginModel> _logger;
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public ExternalLoginModel(
-            SignInManager<WebstoreUser> signInManager,
-            UserManager<WebstoreUser> userManager,
+            SignInManager<IdentityUser> signInManager,
+            UserManager<IdentityUser> userManager,
             ILogger<ExternalLoginModel> logger,
             IEmailSender emailSender)
         {
@@ -100,7 +99,7 @@ namespace App.Components.Areas.Identity.Pages
             if (ModelState.IsValid)
             {
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var user = new WebstoreUser {UserName = email, Email = email, EmailConfirmed = true};
+                var user = new IdentityUser {UserName = email, Email = email, EmailConfirmed = true};
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

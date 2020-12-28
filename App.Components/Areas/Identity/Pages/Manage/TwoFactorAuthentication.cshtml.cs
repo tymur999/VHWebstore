@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages.Manage
 {
@@ -14,12 +13,12 @@ namespace App.Components.Areas.Identity.Pages.Manage
     public class TwoFactorAuthenticationModel : PageModel
     {
         private readonly ILogger<TwoFactorAuthenticationModel> _logger;
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public TwoFactorAuthenticationModel(
-            UserManager<WebstoreUser> userManager,
-            SignInManager<WebstoreUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             ILogger<TwoFactorAuthenticationModel> logger)
         {
             _userManager = userManager;

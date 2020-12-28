@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace VHacksWebstore.Core.Domain
 {
@@ -6,7 +7,7 @@ namespace VHacksWebstore.Core.Domain
     {
         [Key]
         public string Id { get; set; }
-        public WebstoreUser Buyer { get; set; }
+        public IdentityUser Buyer { get; set; }
         public Product Product { get; set; }
         public int Count { get; set; }
         public string Comment { get; set; }
@@ -15,7 +16,7 @@ namespace VHacksWebstore.Core.Domain
         {
             Cancelled,
             [Display(Name = "In review")]
-            Reviewing,
+            InReview,
             [Display(Name ="In progress")]
             InProgress,
             Completed

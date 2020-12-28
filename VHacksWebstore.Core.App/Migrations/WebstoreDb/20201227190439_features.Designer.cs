@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using VHacksWebstore.Data;
 
 namespace VHacksWebstore.Core.App.Migrations.WebstoreDb
 {
     [DbContext(typeof(WebstoreDbContext))]
-    partial class WebstoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20201227190439_features")]
+    partial class features
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,7 +155,7 @@ namespace VHacksWebstore.Core.App.Migrations.WebstoreDb
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Images")
+                    b.Property<string>("ListString")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")

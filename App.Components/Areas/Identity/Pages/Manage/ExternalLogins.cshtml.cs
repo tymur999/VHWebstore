@@ -7,19 +7,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages.Manage
 {
     [Authorize]
     public class ExternalLoginsModel : PageModel
     {
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public ExternalLoginsModel(
-            UserManager<WebstoreUser> userManager,
-            SignInManager<WebstoreUser> signInManager)
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;

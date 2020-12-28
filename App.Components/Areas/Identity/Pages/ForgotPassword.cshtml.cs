@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -16,9 +15,9 @@ namespace App.Components.Areas.Identity.Pages
     public class ForgotPasswordModel : PageModel
     {
         private readonly IEmailSender _emailSender;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public ForgotPasswordModel(UserManager<WebstoreUser> userManager, IEmailSender emailSender)
+        public ForgotPasswordModel(UserManager<IdentityUser> userManager, IEmailSender emailSender)
         {
             _userManager = userManager;
             _emailSender = emailSender;

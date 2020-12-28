@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -16,11 +15,11 @@ namespace App.Components.Areas.Identity.Pages
     {
         private readonly ILogger<LoginWith2faModel> _logger;
         private readonly IEmailSender _sender;
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public LoginWith2faModel(SignInManager<WebstoreUser> signInManager, ILogger<LoginWith2faModel> logger,
-            IEmailSender sender, UserManager<WebstoreUser> userManager)
+        public LoginWith2faModel(SignInManager<IdentityUser> signInManager, ILogger<LoginWith2faModel> logger,
+            IEmailSender sender, UserManager<IdentityUser> userManager)
         {
             _signInManager = signInManager;
             _logger = logger;

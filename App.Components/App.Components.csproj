@@ -21,10 +21,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\VHacksWebstore.Core.Domain\VHacksWebstore.Core.Domain.csproj" />
-    <ProjectReference Include="..\VHacksWebstore.Data\VHacksWebstore.Data.csproj" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="wwwroot\**\*" />
   </ItemGroup>
 </Project>

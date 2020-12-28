@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -12,9 +11,9 @@ namespace App.Components.Areas.Identity.Pages
     public class LogoutModel : PageModel
     {
         private readonly ILogger<LogoutModel> _logger;
-        private readonly SignInManager<WebstoreUser> _signInManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public LogoutModel(SignInManager<WebstoreUser> signInManager, ILogger<LogoutModel> logger)
+        public LogoutModel(SignInManager<IdentityUser> signInManager, ILogger<LogoutModel> logger)
         {
             _signInManager = signInManager;
             _logger = logger;

@@ -9,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VHacksWebstore.Core.App.Services;
-using VHacksWebstore.Core.Domain;
 using VHacksWebstore.Data;
 
 namespace VHacksWebstore.Core.App
@@ -43,7 +42,7 @@ namespace VHacksWebstore.Core.App
                     options.ClientSecret = "JkdQFDjeHzyX367lgHDusvqL";
                     options.SignInScheme = IdentityConstants.ExternalScheme;
                 });
-            services.AddIdentity<WebstoreUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<WebstoreDbContext>()
                 .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>

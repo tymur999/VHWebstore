@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace VHacksWebstore.Core.Domain
 {
@@ -7,13 +8,12 @@ namespace VHacksWebstore.Core.Domain
     {
         [Key]
         public string Id { get; set; }
-        public WebstoreUser User { get; set; }
+        public IdentityUser User { get; set; }
         public Product Product { get; set; }
         [Range(1,5)]
         public int Rating { get; set; }
-        [Range(0, 100)]
-        public string ShortDesc { get; set; }
-        public string LongDesc { get; set; }
-        public IList<Image> Images { get; set; }
+
+        public string Title { get; set; }
+        public string Description { get; set; }
     }
 }

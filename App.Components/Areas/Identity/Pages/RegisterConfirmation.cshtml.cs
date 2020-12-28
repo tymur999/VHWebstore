@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages
 {
@@ -15,9 +14,9 @@ namespace App.Components.Areas.Identity.Pages
     [ValidateAntiForgeryToken]
     public class RegisterConfirmationModel : PageModel
     {
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RegisterConfirmationModel(UserManager<WebstoreUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<IdentityUser> userManager, IEmailSender sender)
         {
             _userManager = userManager;
         }

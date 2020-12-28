@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages.Manage
 {
@@ -16,12 +15,12 @@ namespace App.Components.Areas.Identity.Pages.Manage
     public class EmailModel : PageModel
     {
         private readonly IEmailSender _emailSender;
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public EmailModel(
-            UserManager<WebstoreUser> userManager,
-            SignInManager<WebstoreUser> signInManager,
+            UserManager<IdentityUser> userManager,
+            SignInManager<IdentityUser> signInManager,
             IEmailSender emailSender)
         {
             _userManager = userManager;
@@ -39,7 +38,7 @@ namespace App.Components.Areas.Identity.Pages.Manage
 
         [BindProperty] public InputModel Input { get; set; }
 
-        private async Task LoadAsync(WebstoreUser user)
+        private async Task LoadAsync(IdentityUser user)
         {
             var email = await _userManager.GetEmailAsync(user);
             Email = email;

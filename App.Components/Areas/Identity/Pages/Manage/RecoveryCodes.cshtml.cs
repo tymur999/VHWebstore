@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages.Manage
 {
@@ -11,9 +10,9 @@ namespace App.Components.Areas.Identity.Pages.Manage
     public class RecoveryCodesModel : PageModel
     {
         private readonly ILogger<RecoveryCodesModel> _logger;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public RecoveryCodesModel(UserManager<WebstoreUser> userManager, ILogger<RecoveryCodesModel> logger)
+        public RecoveryCodesModel(UserManager<IdentityUser> userManager, ILogger<RecoveryCodesModel> logger)
         {
             _userManager = userManager;
             _logger = logger;

@@ -8,20 +8,19 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using VHacksWebstore.Core.Domain;
 
 namespace App.Components.Areas.Identity.Pages.Manage
 {
     public class PersonalDataModel : PageModel
     {
         private readonly ILogger<PersonalDataModel> _logger;
-        private readonly SignInManager<WebstoreUser> _signInManager;
-        private readonly UserManager<WebstoreUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
 
         public PersonalDataModel(
-            UserManager<WebstoreUser> userManager,
+            UserManager<IdentityUser> userManager,
             ILogger<PersonalDataModel> logger,
-            SignInManager<WebstoreUser> signInManager)
+            SignInManager<IdentityUser> signInManager)
         {
             _userManager = userManager;
             _logger = logger;
@@ -71,7 +70,7 @@ namespace App.Components.Areas.Identity.Pages.Manage
 
             // Only include personal data for download
             var personalData = new Dictionary<string, string>();
-            var personalDataProps = typeof(WebstoreUser).GetProperties().Where(
+            var personalDataProps = typeof(IdentityUser).GetProperties().Where(
                 prop => Attribute.IsDefined(prop, typeof(PersonalDataAttribute)));
             foreach (var p in personalDataProps) personalData.Add(p.Name, p.GetValue(user)?.ToString() ?? "null");
 

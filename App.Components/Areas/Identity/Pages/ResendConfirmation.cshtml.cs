@@ -10,20 +10,17 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.EntityFrameworkCore;
-using VHacksWebstore.Core.Domain;
-using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace App.Components.Areas.Identity.Pages
 {
     public class ResendConfirmationModel : PageModel
     {
-        private readonly UserManager<WebstoreUser> _userManager;
-        private readonly SignInManager<WebstoreUser> _signInManager;
+        private readonly UserManager<IdentityUser> _userManager;
+        private readonly SignInManager<IdentityUser> _signInManager;
         private readonly IEmailSender _sender;
 
-        public ResendConfirmationModel(UserManager<WebstoreUser> userManager, 
-            SignInManager<WebstoreUser> signInManager,
+        public ResendConfirmationModel(UserManager<IdentityUser> userManager, 
+            SignInManager<IdentityUser> signInManager,
             IEmailSender sender)
         {
             _userManager = userManager;

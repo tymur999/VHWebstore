@@ -1,6 +1,5 @@
-﻿@using VHacksWebstore.Core.Domain
-@using Microsoft.AspNetCore.Identity
-@inject SignInManager<WebstoreUser> SignInManager
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

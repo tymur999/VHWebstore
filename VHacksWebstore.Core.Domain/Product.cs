@@ -1,28 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Drawing;
-using System.Linq;
-using System.Reflection.Metadata.Ecma335;
+using System.Runtime.InteropServices;
+
 
 namespace VHacksWebstore.Core.Domain
 {
     public class Product
     {
-        [Key]
-        public int Id { get; set; }
-        public byte[] PrimaryImage { get; set; }
-        //Separate byte arrays with ','
-        public string Images
-        {
-            get => Images;
-            set => string.Join(',', value);
-        }
+        [Key] //Guid
+        public string Id { get; set; }
+        //List of file paths in json format
+        public List<string> Images { get; set; } = new();
+        public List<ProductOrder> Orders { get; set; } = new();
         public string Name { get; set; }
         public string Description { get; set; }
         public float Price { get; set; }
-        [Range(1,5)]
         public float Rating { get; set; }
-        public ICollection<ProductRating> Reviews { get; set; }
+        public List<ProductRating> Reviews { get; set; }
     }
 }

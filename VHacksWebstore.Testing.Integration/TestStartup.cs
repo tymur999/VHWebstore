@@ -26,7 +26,7 @@ namespace VHacksWebstore.Testing.Integration
             {
                 options.UseInMemoryDatabase("InMemoryDbForTesting");
             });
-            services.AddDefaultIdentity<WebstoreUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             .AddEntityFrameworkStores<TestDbContext>()
             .AddDefaultTokenProviders();
             services.Configure<IdentityOptions>(options =>

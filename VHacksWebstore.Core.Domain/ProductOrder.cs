@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
 namespace VHacksWebstore.Core.Domain
 {
     public class ProductOrder
     {
-        [Key]
+        [Key] //Guid
         public string Id { get; set; }
         public IdentityUser Buyer { get; set; }
         public Product Product { get; set; }

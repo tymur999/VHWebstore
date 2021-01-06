@@ -1,0 +1,12 @@
+﻿@page "{productId:guid}"
+@model VHacksWebstore.Core.App.Pages.Webstore.Products.ProductModel
+@{
+}
+@foreach (var image in Model.Product.Images)
+{
+    <img src="@image"/>
+}
+<h3>@Model.Product.Name</h3> <h4>@Model.Product.Price</h4>
+
+<p>@Model.Product.Description</p>
+

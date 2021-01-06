@@ -7,7 +7,7 @@ using VHacksWebstore.Core.Domain;
 
 namespace VHacksWebstore.Testing.Integration
 {
-    public class TestDbContext : IdentityDbContext<WebstoreUser>
+    public class TestDbContext : IdentityDbContext<IdentityUser>
     {
         public TestDbContext(DbContextOptions<TestDbContext> options)
         : base(options)
@@ -20,7 +20,7 @@ namespace VHacksWebstore.Testing.Integration
             modelBuilder.Entity<IdentityUserClaim<string>>().HasKey(i => i.Id);
             modelBuilder.Entity<IdentityUserRole<string>>().HasKey(i => new { i.UserId,i.RoleId });
             
-            var successfulLoginUser = new WebstoreUser()
+            var successfulLoginUser = new IdentityUser()
             {
                 NormalizedEmail = "SUCCESSFUL@GMAIL.COM",
                 Email = "Successful@gmail.com",
@@ -30,7 +30,7 @@ namespace VHacksWebstore.Testing.Integration
                 LockoutEnabled = true,
                 TwoFactorEnabled = false
             };
-            var twoFactorUser = new WebstoreUser()
+            var twoFactorUser = new IdentityUser()
             {
                 NormalizedEmail = "TWOFACTOR@GMAIL.COM",
                 Email = "TwoFactor@gmail.com",
@@ -40,7 +40,7 @@ namespace VHacksWebstore.Testing.Integration
                 LockoutEnabled = true,
                 TwoFactorEnabled = true
             };
-            var lockedOutUser = new WebstoreUser()
+            var lockedOutUser = new IdentityUser()
             {
                 NormalizedEmail = "LOCKEDOUT@GMAIL.COM",
                 Email = "LockedOut@gmail.com",
@@ -51,7 +51,7 @@ namespace VHacksWebstore.Testing.Integration
                 TwoFactorEnabled = false,
                 LockoutEnd = DateTime.Today.AddHours(1)
             };
-            var unConfirmedUser = new WebstoreUser()
+            var unConfirmedUser = new IdentityUser()
             {
                 NormalizedEmail = "UNCONFIRMED@GMAIL.COM",
                 Email = "Unconfirmed@gmail.com",
@@ -61,12 +61,12 @@ namespace VHacksWebstore.Testing.Integration
                 LockoutEnabled = true,
                 TwoFactorEnabled = false,
             };
-            var hasher = new PasswordHasher<WebstoreUser>();
+            var hasher = new PasswordHasher<IdentityUser>();
             successfulLoginUser.PasswordHash = hasher.HashPassword(successfulLoginUser,"password");
             twoFactorUser.PasswordHash = hasher.HashPassword(twoFactorUser, "password");
             lockedOutUser.PasswordHash = hasher.HashPassword(lockedOutUser, "password");
             unConfirmedUser.PasswordHash = hasher.HashPassword(unConfirmedUser, "password");
-            modelBuilder.Entity<WebstoreUser>()
+            modelBuilder.Entity<IdentityUser>()
                 .HasData(successfulLoginUser,twoFactorUser,lockedOutUser,unConfirmedUser);
         }
     }

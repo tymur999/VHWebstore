@@ -2,3 +2,18 @@
 @model VHacksWebstore.Core.App.Pages.Webstore.Products.IndexModel
 @{
 }
+<form method="get" asp-route-search="search">
+    <input name="search"/>
+    <button type="submit">Submit</button>
+</form>
+@foreach (var product in Model.Products)
+{
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="@product.Images.First()" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">@product.Name</h5>
+            <p class="card-text">@product.Description</p>
+            <a asp-page="./View" asp-route-productId="@product.Id" class="btn btn-primary">Purchase - @product.Price</a>
+        </div>
+    </div>
+}

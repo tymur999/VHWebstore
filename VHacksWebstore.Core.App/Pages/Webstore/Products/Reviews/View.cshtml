@@ -1,0 +1,17 @@
+﻿@page "{reviewId:guid}"
+@model VHacksWebstore.Core.App.Pages.Webstore.Products.Reviews.ViewModel
+@{
+}
+<div>
+    <h5>@Model.Review.Id</h5>
+    <h3>@Model.Review.Title</h3>
+</div>
+<div>
+    <p>@Model.Review.Description</p>
+</div>
+<div>
+    <h3>@Model.Review.Rating stars</h3>
+</div>
+<div>
+    <h3>@Model.Review.User.UserName</h3>
+</div>
